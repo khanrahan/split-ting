@@ -36,7 +36,8 @@
     usageArray['firstMessage'] = Date.parse(new Date());
     usageArray['firstMegabyte'] = Date.parse(new Date());
     firstUsage = Date.parse(new Date());
-    newRates = Date.parse("February 04, 2014");
+    rateUpdate2 = Date.parse("August 05, 2016");
+    rateUpdate1 = Date.parse("February 04, 2014");
   }
   
   function earliestUsage(){
@@ -322,7 +323,7 @@
         minutesTotal = billTotal['minutes'],
         overageMinutes = 0;
     
-    if (firstUsage >= newRates){
+    if (firstUsage >= rateUpdate1){
         if (billTotal['minutes'] > 0 && billTotal['minutes'] < 106) {
           minutesPrice = 3;
           planType = 'Small';
@@ -395,7 +396,7 @@
         messagesTotal = billTotal['messages'],
         overageMessages = 0;
 
-    if (firstUsage >= newRates) {
+    if (firstUsage >= rateUpdate1) {
         if (billTotal['messages'] > 0 && billTotal['messages'] < 106) {
           messagesPrice = 3;
           planType = 'Small';
@@ -464,7 +465,32 @@
         megabytesTotal = billTotal['megabytes'],
         overageMegabytes = 0;
 
-    if (firstUsage >= newRates){
+    if (firstUsage >= rateUpdate2){
+        if (billTotal['megabytes'] > 0 && billTotal['megabytes'] < 106) {
+          megabytesPrice = 3;
+          planType = 'Small';
+        } else if (billTotal['megabytes'] > 105 && billTotal['megabytes'] < 526 ) {
+          megabytesPrice = 10;
+          planType = 'Medium';
+        } else if (billTotal['megabytes'] > 525 && billTotal['megabytes'] < 1076) {
+          megabytesPrice = 16;
+          planType = 'Large';
+        } else if (billTotal['megabytes'] > 1075 && billTotal['megabytes'] < 2151) {
+          megabytesPrice = 20;
+          planType = 'XL';
+        } else {
+          megabytesPrice = 20;
+          planType = 'XXL';
+          extraMegabytes = parseFloat(billTotal['megabytes']) - parseFloat(2048);
+          console.log('Extra Megabytes: ' + extraMegabytes);
+	  extraMegabytes = Math.floor((extraMegabytes / 1000))* 1000
+          extraMegabytesPrice = extraMegabytes * .01;
+          extraMegabytesPrice = Math.round((extraMegabytesPrice * 100))/100;
+          megabytesTotal = 2048;
+          overageMegabytes = parseInt(billTotal['megabytes']) - parseInt(2048);
+          console.log('Extra Megabytes Price: ' + extraMegabytesPrice);
+        }    
+    } else if (firstUsage >= rateUpdate1){
         if (billTotal['megabytes'] > 0 && billTotal['megabytes'] < 106) {
           megabytesPrice = 3;
           planType = 'Small';
